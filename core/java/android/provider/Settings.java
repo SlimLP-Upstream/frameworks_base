@@ -3906,13 +3906,37 @@ public final class Settings {
          * @hide
          */
         public static final String VOLUME_LINK_NOTIFICATION = "volume_link_notification";
-
+        
         /**
          * Boolean value whether to expand the volume panel
          *
          * @hide
          */
         public static final String VOLUME_PANEL_EXPANDED = "volume_link_expanded";
+
+        /**
+         * Network traffic indicator, goes from least to greatest significant bitwise
+         * 0 = Display up-stream traffic if set
+         * 1 = Display down-stream traffic if set
+         * 2 = Show as Byte/s if set
+         * 16-31 = Refresh interval(ms) min: 250 max: 32750 default: 1000
+         * @hide
+         */
+        public static final String NETWORK_TRAFFIC_STATE = "network_traffic_state";
+
+        /**
+         * Whether or not to hide the network traffic indicator when there is no activity
+         * @hide
+         */
+        public static final String NETWORK_TRAFFIC_AUTOHIDE = "network_traffic_autohide";
+
+        /**
+         * Network traffic inactivity threshold (default is 10 kBs)
+         * @hide
+         */
+        public static final String NETWORK_TRAFFIC_AUTOHIDE_THRESHOLD = "network_traffic_autohide_threshold";
+
+        /**
 
         /**
          * Whether the notification light will be allowed when in zen mode during downtime

@@ -3910,10 +3910,27 @@ public final class Settings {
         /**
          * Boolean value whether to link ringtone and notification volume
          *
-         * @hide
          */
         public static final String VOLUME_LINK_NOTIFICATION = "volume_link_notification";
-        
+
+	 /**
+	 * Width and height of output vide expressed in WxH
+         * @hide
+         */
+        public static final String SCREEN_RECORDER_OUTPUT_DIMENSIONS = "screen_recorder_output_dimensions";
+
+        /**
+         * Screen recorder framerate in bits per second
+         * @hide
+         */
+        public static final String SCREEN_RECORDER_BITRATE = "screen_recorder_bitrate";
+
+        /**
+         * Whether to include audio when recording a video
+         * @hide
+         */
+        public static final String SCREEN_RECORDER_RECORD_AUDIO = "screen_recorder_record_audio";
+
         /**
          * Boolean value whether to expand the volume panel
          *

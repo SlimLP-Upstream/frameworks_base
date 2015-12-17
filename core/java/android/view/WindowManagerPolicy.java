@@ -1116,6 +1116,11 @@ public interface WindowManagerPolicy {
      * user can start interacting with it.
      */
     public void systemBooted();
+  
+    /**
+     * name of package being worked on during boot time message
+     */
+    public void setPackageName(String pkgName);
 
     /**
      * Show boot time message to the user.

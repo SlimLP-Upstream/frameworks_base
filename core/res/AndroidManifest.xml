@@ -1502,10 +1502,22 @@
          users on the device. This permission is not available to
          third party applications. -->
     <permission android:name="android.permission.MANAGE_USERS"
-        android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
-        android:protectionLevel="signature|system"
-        android:label="@string/permlab_manageUsers"
-        android:description="@string/permdesc_manageUsers" />
+        android:protectionLevel="signature|privileged" />
+
+    <!-- @hide Allows an application to create, remove users and get the list of
+         users on the device. Applications holding this permission can only create restricted,
+         guest, and managed users. For creating other kind of users,
+         {@link android.Manifest.permission#MANAGE_USERS} is needed.
+         This permission is not available to third party applications. -->
+    <permission android:name="android.permission.CREATE_USERS"
+        android:protectionLevel="signature" />
+
+    <!-- @hide Allows an application to set the profile owners and the device owner.
+         This permission is not available to third party applications.-->
+    <permission android:name="android.permission.MANAGE_PROFILE_AND_DEVICE_OWNERS"
+        android:protectionLevel="signature"
+        android:label="@string/permlab_manageProfileAndDeviceOwners"
+        android:description="@string/permdesc_manageProfileAndDeviceOwners" />
 
     <!-- Allows an application to get full detailed information about
          recently running tasks, with full fidelity to the real state.

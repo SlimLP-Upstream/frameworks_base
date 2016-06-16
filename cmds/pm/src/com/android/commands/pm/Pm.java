@@ -235,6 +235,18 @@ public final class Pm {
             return runForceDexOpt();
         }
 
+        if ("move-package".equals(op)) {
+            return runMovePackage();
+        }
+
+        if ("move-primary-storage".equals(op)) {
+            return runMovePrimaryStorage();
+        }
+
+        if ("set-user-restriction".equals(op)) {
+            return runSetUserRestriction();
+        }
+
         try {
             if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("-l")) {
@@ -1274,6 +1286,93 @@ public final class Pm {
             return 0;
         } catch (RemoteException e) {
             throw e.rethrowAsRuntimeException();
+        }
+    }
+
+    public int runMovePackage() {
+        final String packageName = nextArg();
+        String volumeUuid = nextArg();
+        if ("internal".equals(volumeUuid)) {
+            volumeUuid = null;
+        }
+
+        try {
+            final int moveId = mPm.movePackage(packageName, volumeUuid);
+
+            int status = mPm.getMoveStatus(moveId);
+            while (!PackageManager.isMoveStatusFinished(status)) {
+                SystemClock.sleep(DateUtils.SECOND_IN_MILLIS);
+                status = mPm.getMoveStatus(moveId);
+            }
+
+            if (status == PackageManager.MOVE_SUCCEEDED) {
+                System.out.println("Success");
+                return 0;
+            } else {
+                System.err.println("Failure [" + status + "]");
+                return 1;
+            }
+        } catch (RemoteException e) {
+            throw e.rethrowAsRuntimeException();
+        }
+    }
+
+    public int runMovePrimaryStorage() {
+        String volumeUuid = nextArg();
+        if ("internal".equals(volumeUuid)) {
+            volumeUuid = null;
+        }
+
+        try {
+            final int moveId = mPm.movePrimaryStorage(volumeUuid);
+
+            int status = mPm.getMoveStatus(moveId);
+            while (!PackageManager.isMoveStatusFinished(status)) {
+                SystemClock.sleep(DateUtils.SECOND_IN_MILLIS);
+                status = mPm.getMoveStatus(moveId);
+            }
+
+            if (status == PackageManager.MOVE_SUCCEEDED) {
+                System.out.println("Success");
+                return 0;
+            } else {
+                System.err.println("Failure [" + status + "]");
+                return 1;
+            }
+        } catch (RemoteException e) {
+            throw e.rethrowAsRuntimeException();
+        }
+    }
+
+    public int runSetUserRestriction() {
+        int userId = UserHandle.USER_OWNER;
+        String opt = nextOption();
+        if (opt != null && "--user".equals(opt)) {
+            String arg = nextArg();
+            if (arg == null || !isNumber(arg)) {
+                System.err.println("Error: valid userId not specified");
+                return 1;
+            }
+            userId = Integer.parseInt(arg);
+        }
+
+        String restriction = nextArg();
+        String arg = nextArg();
+        boolean value;
+        if ("1".equals(arg)) {
+            value = true;
+        } else if ("0".equals(arg)) {
+            value = false;
+        } else {
+            System.err.println("Error: valid value not specified");
+            return 1;
+        }
+        try {
+            mUm.setUserRestriction(restriction, value, userId);
+            return 0;
+        } catch (RemoteException e) {
+            System.err.println(e.toString());
+            return 1;
         }
     }
 
